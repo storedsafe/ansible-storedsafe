@@ -42,7 +42,7 @@ The plugin also supports specifying the list of trusted CAs either thru by using
 	export STOREDSAFE_CABUNDLE=/etc/pki/tls/ca.crt
 	export STOREDSAFE_CABUNDLE=/etc/pki/tls
 
-To disable verification (**NOT RECOMMDED**) the ```STOREDSAFE_SKIP_VERIFY``` variable can be set.
+To disable verification (**NOT RECOMMENDED**) the ```STOREDSAFE_SKIP_VERIFY``` variable can be set.
 
 	export STOREDSAFE_SKIP_VERIFY=True
 

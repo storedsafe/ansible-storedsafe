@@ -1,0 +1,7 @@
+---
+galaxy_info:
+  author: Fredrik Soderblom
+  description: Ansible lookup plugin for StoredSafe
+  min_ansible_version: 2.4
+
+dependencies: [ requests ]
