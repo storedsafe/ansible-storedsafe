@@ -2,6 +2,49 @@
 galaxy_info:
   author: Fredrik Soderblom
   description: Ansible lookup plugin for StoredSafe
+  company: AB StoredSafe
+  license: Apache
   min_ansible_version: 2.4
+  platforms:
+  - name: OpenBSD
+    versions:
+    - all
+  - name: Fedora
+    versions:
+    - all
+  - name: GenericBSD
+    versions:
+    - any
+  - name: FreeBSD
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  - name: opensuse
+    versions:
+    - all
+  - name: SLES
+    versions:
+    - all
+  - name: GenericUNIX
+    versions:
+    - all
+  - name: Solaris
+    versions:
+    - all
+  galaxy_tags:
+    - system
+    - monitoring
+    - networking
+    - cloud
+    - password
+    - encryption
 
-dependencies: [ requests ]
+dependencies:
+  - src: requests
+    version: 2
+    name: requests
