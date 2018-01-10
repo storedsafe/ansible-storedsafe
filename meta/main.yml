@@ -43,8 +43,3 @@ galaxy_info:
     - cloud
     - password
     - encryption
-
-dependencies:
-  - src: requests
-    version: 2
-    name: requests
