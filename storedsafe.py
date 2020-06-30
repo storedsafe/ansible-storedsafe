@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# (c) 2018, Fredrik Soderblom <fredrik@storedsafe.com>
-# (c) 2018 AB StoredSafe
+# (c) 2020, Fredrik Soderblom <fredrik@storedsafe.com>
+# (c) 2020 AB StoredSafe
 
 DOCUMENTATION = """
     lookup: storedsafe
@@ -16,7 +16,7 @@ DOCUMENTATION = """
         description: queried object
         required: True
       <fieldname>:
-        description: retrieve value from this field
+        description: retrieve value from this field (use "download" on file objects to get content of file returned)
         required: True
 """
 
@@ -41,6 +41,9 @@ EXAMPLES = """
 # Generic lookup
 {{ lookup('storedsafe', '7893/password') }} # foobar
 
+# Download file, content will be returned as a string
+{{ lookup('storedsafe', '1718/download') }} # get content of file
+
 """
 
 RETURN = """
@@ -52,7 +55,7 @@ import os
 import json
 import re
 import requests
-import pprint
+import base64
 
 from ansible.errors import AnsibleError, AnsibleParserError
 from ansible.plugins.lookup import LookupBase
@@ -112,6 +115,9 @@ class LookupModule(LookupBase):
     def _get_item(self, url, token, objectid, fieldname, cabundle, skipverify):
         item = False
         payload = { 'token': token, 'decrypt': 'true' }
+        if fieldname == 'download':
+            payload['filedata'] = 'true'
+            display.vvvv(u"StoredSafe will try to download file content.")
         if skipverify:
             req = requests.get(url + '/object/' + objectid, params=payload, verify=False)
         elif cabundle:
@@ -122,17 +128,24 @@ class LookupModule(LookupBase):
         if not req.ok:
             raise AnsibleError('Failed to communicate with StoredSafe.')
 
-        if (len(data['OBJECT'])): # Unless result is empty
-            try:
-                item = data['OBJECT'][objectid]["crypted"][fieldname]
-            except:
+        if 'OBJECT' in data:
+            if (len(data['OBJECT'])): # Unless result is empty
                 try:
-                    item = data['OBJECT'][objectid]["public"][fieldname]
+                    item = data['OBJECT'][0]["crypted"][fieldname]
                 except:
                     try:
-                        item = data['OBJECT'][objectid][fieldname]
+                        item = data['OBJECT'][0]["public"][fieldname]
                     except:
-                        item = False
+                        try:
+                            item = data['OBJECT'][0][fieldname]
+                        except:
+                            item = False
+
+            if fieldname == 'download':
+                if 'FILEDATA' in data:
+                    if (len(data['FILEDATA'])):
+                        item = base64.b64decode(data['FILEDATA'])
+                        display.vvvv(u"StoredSafe returning base64 decoded file content.")
 
         if not item:
             raise AnsibleError('Could not find the requested information in StoredSafe.')
