@@ -109,7 +109,7 @@ Using ```download``` as the fieldname will return content of any file object.
 ## Example
 
 ```bash
-$ cat test-module.yml
+$ cat test.yml
 ---
 - hosts: localhost
   gather_facts: False
