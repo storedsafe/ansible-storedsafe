@@ -19,9 +19,9 @@ sudo -H pip install requests
 ```
 
 Lookup plugins can be loaded from several different locations similar to `$PATH`, see
-[lookup_plugins](http://docs.ansible.com/ansible/intro_configuration.html#lookup-plugins).
+[lookup_plugins](https://docs.ansible.com/ansible/latest/plugins/lookup.html).
 
-The source for the plugin can be pointed to via a _requirements.yml_ file, and accessed via [`ansible-galaxy`](http://docs.ansible.com/ansible/galaxy.html).
+The source for the plugin can be pointed to via a _requirements.yml_ file, and accessed via [`ansible-galaxy`](https://docs.ansible.com/ansible/latest/cli/ansible-galaxy.html).
 
 ## Configuration
 
