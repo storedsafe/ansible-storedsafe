@@ -161,7 +161,7 @@ class LookupModule(LookupBase):
                     if token == 'none':
                         return (False, False)
                 if "mysite" in line:
-                    server = re.sub('mysite:([a-zA-Z0-9.]+)\n$', r'\1', line)
+                    server = re.sub('mysite:([-a-zA-Z0-9_.]+)\n$', r'\1', line)
                     if server == 'none':
                         return (False, False)
             _file.close()
